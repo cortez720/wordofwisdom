@@ -7,6 +7,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"math"
+
 	config "wordOfWisdom/config/pow"
 )
 

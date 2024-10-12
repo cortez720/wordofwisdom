@@ -1,51 +1,29 @@
+//go:generate mockgen -destination=./mocks/solve_handler_mock.go -source=./solve_handler.go -package=handler
+
 package handler
 
 import (
-	"io/ioutil"
-	"log"
 	"net/http"
-	"net/url"
-	
-	config "wordOfWisdom/config/client"
 )
 
-type solver interface {
-	Solve(challenge []byte) []byte
+type SolverService interface {
+	Solve() ([]byte, error)
 }
 
 type SolverHandler struct {
-	cfg    *config.ClientConfig
-	solver solver
+	svc SolverService
 }
 
-func NewSolver(solver solver, cfg *config.ClientConfig) *SolverHandler {
-	return &SolverHandler{solver: solver, cfg: cfg}
+func NewSolver(solver SolverService) *SolverHandler {
+	return &SolverHandler{svc: solver}
 }
 
 func (hndl *SolverHandler) Solve(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get(hndl.cfg.ServerAddr + hndl.cfg.ChallengeRoute)
+	quote, err := hndl.svc.Solve()
 	if err != nil {
-		log.Fatalf("http.Get: %v", err.Error())
+		http.Error(w, "Internal error.", http.StatusInternalServerError)
+		return
 	}
 
-	defer resp.Body.Close()
-	challenge, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalf("ioutil.ReadAll: %v", err.Error())
-	}
-
-	solution := hndl.solver.Solve(challenge)
-
-	form := url.Values{}
-	form.Add(challengeArg, string(challenge))
-	form.Add(solutionArg, string(solution))
-
-	resp, err = http.PostForm(hndl.cfg.ServerAddr+hndl.cfg.ValidateRoute, form)
-	if err != nil {
-		log.Fatalf("http.PostForm: %v", err.Error())
-	}
-	defer resp.Body.Close()
-
-	quote, _ := ioutil.ReadAll(resp.Body)
-	w.Write([]byte("Quote of the day: " + string(quote)))
+	w.Write([]byte(string(quote)))
 }

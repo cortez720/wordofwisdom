@@ -1,3 +1,5 @@
+//go:generate mockgen -destination=./mocks/challenge_handler_mock.go -source=./challenge_handler.go -package=handler
+
 package handler
 
 import (
@@ -47,7 +49,7 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 
 	res, err := hndl.svc.GetWordOfWisdom(defaultCtx)
 	if err != nil {
-		http.Error(w, "Invalid error.", http.StatusInternalServerError)
+		http.Error(w, "Internal error.", http.StatusInternalServerError)
 		return
 	}
 

@@ -10,20 +10,19 @@ import (
 )
 
 // Config
-type ClientConfig struct {
-	HTTPAddr       string `envconfig:"CLIENT_HTTP_HOST_ADDR"`
+type SolverConfig struct {
 	ServerAddr     string `envconfig:"SERVER_ADDR"`
 	ChallengeRoute string `envconfig:"CHALLENGE_ROUTE"`
 	ValidateRoute  string `envconfig:"VALIDATE_ROUTE"`
 }
 
 var (
-	config ClientConfig
+	config SolverConfig
 	once   sync.Once
 )
 
 // Get reads config from environment. Once.
-func GetClientConfig() *ClientConfig {
+func GetSolverConfig() *SolverConfig {
 	once.Do(func() {
 		err := envconfig.Process("", &config)
 		if err != nil {

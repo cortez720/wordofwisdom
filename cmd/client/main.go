@@ -8,24 +8,28 @@ import (
 	"os/signal"
 	"syscall"
 
-	config "wordOfWisdom/config/client"
+	clientConfig "wordOfWisdom/config/client"
 	powConfig "wordOfWisdom/config/pow"
+	solverConfig "wordOfWisdom/config/solver"
 	"wordOfWisdom/internal/handler"
 	hashbasedpow "wordOfWisdom/internal/pkg/hash_based_pow"
+	solverSvc "wordOfWisdom/internal/service/solver"
 )
 
 func main() {
-	clientConfig := config.GetClientConfig()
+	clientConfig := clientConfig.GetClientConfig()
+	solverConfig := solverConfig.GetSolverConfig()
+	powConfig := powConfig.GetPowConfig()
 
-	//pow config
-	pow, err := hashbasedpow.NewPOW(powConfig.GetPowConfig())
+	pow, err := hashbasedpow.NewPOW(powConfig)
 	if err != nil {
 		log.Fatalf("hashbasedpow.NewPOW: %v", err.Error())
 	}
 
-	hndl := handler.NewSolver(pow, clientConfig)
+	svc := solverSvc.NewService(solverConfig, pow)
 
-	// routes
+	hndl := handler.NewSolver(svc)
+
 	http.HandleFunc("/solve", hndl.Solve)
 
 	log.Printf("Running HTTP server on %s\n", clientConfig.HTTPAddr)
