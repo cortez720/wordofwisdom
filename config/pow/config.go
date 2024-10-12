@@ -9,7 +9,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-// Config
+// Config.
 type PowConfig struct {
 	Complexity uint64 `envconfig:"POW_COMPLEXITY"`
 }

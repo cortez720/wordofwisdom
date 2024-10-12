@@ -18,12 +18,12 @@ func NewSolver(solver SolverService) *SolverHandler {
 	return &SolverHandler{svc: solver}
 }
 
-func (hndl *SolverHandler) Solve(w http.ResponseWriter, r *http.Request) {
+func (hndl *SolverHandler) Solve(w http.ResponseWriter, _ *http.Request) {
 	quote, err := hndl.svc.Solve()
 	if err != nil {
 		http.Error(w, "Internal error.", http.StatusInternalServerError)
 		return
 	}
 
-	w.Write([]byte(string(quote)))
+	w.Write([]byte(string(quote))) //nolint:errcheck
 }

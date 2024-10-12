@@ -9,7 +9,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-// Config
+// Config.
 type ServerConfig struct {
 	HTTPAddr string `envconfig:"SERVER_HTTP_HOST_ADDR"`
 }

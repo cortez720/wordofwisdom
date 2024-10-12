@@ -34,6 +34,7 @@ func (s *Solver) Solve() ([]byte, error) {
 	}
 
 	defer resp.Body.Close()
+
 	challenge, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("io.ReadAll: %w", err)

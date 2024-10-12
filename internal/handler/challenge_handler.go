@@ -31,9 +31,9 @@ func NewPow(pow pow, svc quoteService) *PowHandler {
 	return &PowHandler{pow: pow, svc: svc}
 }
 
-func (hndl *PowHandler) Challenge(w http.ResponseWriter, r *http.Request) {
+func (hndl *PowHandler) Challenge(w http.ResponseWriter, _ *http.Request) {
 	challenge := hndl.pow.Challenge()
-	w.Write(challenge)
+	w.Write(challenge) //nolint:errcheck
 }
 
 func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
@@ -41,8 +41,8 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 
 	challenge := []byte(r.FormValue(challengeArg))
 	solution := []byte(r.FormValue(solutionArg))
-	err := hndl.pow.Verify(challenge, solution)
-	if err != nil {
+
+	if err := hndl.pow.Verify(challenge, solution); err != nil {
 		http.Error(w, "Invalid PoW solution", http.StatusUnauthorized)
 		return
 	}
@@ -53,6 +53,5 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(fmt.Sprintf("Quote of the day: %s", res)))
-	return
+	w.Write([]byte(fmt.Sprintf("Quote of the day: %s", res))) //nolint:errcheck
 }

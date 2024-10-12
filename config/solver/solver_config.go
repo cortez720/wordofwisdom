@@ -9,7 +9,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-// Config
+// Config.
 type SolverConfig struct {
 	ServerAddr     string `envconfig:"SERVER_ADDR"`
 	ChallengeRoute string `envconfig:"CHALLENGE_ROUTE"`

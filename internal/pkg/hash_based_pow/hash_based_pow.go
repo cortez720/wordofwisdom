@@ -24,26 +24,26 @@ var (
 	ErrInvalidComplexity = errors.New("invalid complexity")
 )
 
-// POW represents a proof of work algorithm implementation based on hashcash
+// POW represents a proof of work algorithm implementation based on hashcash.
 type POW struct {
-	cfg        *config.PowConfig
 	complexity uint64
 }
 
-// NewPOW creates a new POW
+// NewPOW creates a new POW.
 func NewPOW(cfg *config.PowConfig) (*POW, error) {
 	if cfg == nil || cfg.Complexity < 1 || cfg.Complexity > maxTargetBits {
 		return nil, ErrInvalidComplexity
 	}
+
 	return &POW{complexity: cfg.Complexity}, nil
 }
 
-// Challenge returns a challenge
+// Challenge returns a challenge.
 func (p *POW) Challenge() []byte {
 	return newToken(p.complexity)
 }
 
-// Verify verifies a challenge and solution
+// Verify verifies a challenge and solution.
 func (p *POW) Verify(challenge, solution []byte) error {
 	if len(challenge) != defaultTokenSize {
 		return ErrInvalidChallenge
@@ -60,7 +60,7 @@ func (p *POW) Verify(challenge, solution []byte) error {
 	return nil
 }
 
-// Solve solves a challenge
+// Solve solves a challenge.
 func (p *POW) Solve(challenge []byte) []byte {
 	if len(challenge) != defaultTokenSize {
 		return nil
@@ -83,6 +83,7 @@ func hash(data, nonce []byte) []byte {
 	h := sha256.New()
 	h.Write(data)
 	h.Write(nonce)
+
 	return h.Sum(nil)
 }
 
@@ -96,6 +97,7 @@ func solve(token []byte) []byte {
 
 	for i := uint64(0); i < math.MaxUint64; i++ {
 		binary.BigEndian.PutUint64(nonce, i)
+
 		if verify(token, nonce) {
 			return nonce
 		}

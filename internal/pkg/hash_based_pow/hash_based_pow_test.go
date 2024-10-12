@@ -4,8 +4,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	pow "wordOfWisdom/config/pow"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewPOW(t *testing.T) {

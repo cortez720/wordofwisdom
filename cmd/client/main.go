@@ -7,11 +7,12 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"wordOfWisdom/internal/handler"
 
 	clientConfig "wordOfWisdom/config/client"
 	powConfig "wordOfWisdom/config/pow"
 	solverConfig "wordOfWisdom/config/solver"
-	"wordOfWisdom/internal/handler"
+
 	hashbasedpow "wordOfWisdom/internal/pkg/hash_based_pow"
 	solverSvc "wordOfWisdom/internal/service/solver"
 )
@@ -41,5 +42,4 @@ func main() {
 	<-sig
 
 	fmt.Println("closing")
-
 }

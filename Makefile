@@ -1,9 +1,16 @@
-export POW_COMPLEXITY=4               
-export SERVER_HTTP_HOST_ADDR=:8080 
 
+lint:
+	gofumpt -w ./..
+	golangci-lint run --fix
 
-export POW_COMPLEXITY=4   
-export CLIENT_HTTP_HOST_ADDR=:8081 
-export SERVER_ADDR=http://localhost:8080
-export VALIDATE_ROUTE=/validate
-export CHALLENGE_ROUTE=/challenge
+generate:
+	go generate ./...
+
+test:
+	go test -v ./...
+
+client-run:
+	go run ./cmd/client/main.go   
+
+server-run:
+	go run ./cmd/server/main.go   

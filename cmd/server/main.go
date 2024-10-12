@@ -8,10 +8,11 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"wordOfWisdom/internal/handler"
 
 	powConfig "wordOfWisdom/config/pow"
 	serverConfig "wordOfWisdom/config/server"
-	"wordOfWisdom/internal/handler"
+
 	hashbasedpow "wordOfWisdom/internal/pkg/hash_based_pow"
 	quoteSvc "wordOfWisdom/internal/service/quote"
 )
@@ -29,10 +30,10 @@ func run() error {
 	// server config
 	srvCfg := serverConfig.GetServerConfig()
 
-	//pow config
+	// pow config
 	pow, err := hashbasedpow.NewPOW(powConfig.GetPowConfig())
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("hashbasedpow.NewPOW: %w", err)
 	}
 
 	svc := quoteSvc.NewService(ctx)

@@ -13,16 +13,15 @@ var quotes = []string{
 	"Get busy living or get busy dying.",
 }
 
-// QuoteService ...
-type QuoteService struct {
-}
+// Service ...
+type Service struct{}
 
 // NewService ...
-func NewService(ctx context.Context) *QuoteService {
-	return &QuoteService{}
+func NewService(_ context.Context) *Service {
+	return &Service{}
 }
 
 // GetWordOfWisdom ...
-func (_ *QuoteService) GetWordOfWisdom(ctx context.Context) (string, error) {
+func (svc *Service) GetWordOfWisdom(_ context.Context) (string, error) {
 	return quotes[rand.Intn(len(quotes))], nil
 }
