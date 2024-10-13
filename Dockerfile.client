@@ -1,0 +1,11 @@
+FROM golang:1.23-alpine
+
+COPY . /go/src/app
+
+WORKDIR /go/src/app/cmd/client
+
+RUN go build -o client main.go
+
+EXPOSE 9091
+
+CMD ["./client"]

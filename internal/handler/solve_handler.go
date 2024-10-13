@@ -3,6 +3,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -22,6 +23,8 @@ func (hndl *SolverHandler) Solve(w http.ResponseWriter, _ *http.Request) {
 	quote, err := hndl.svc.Solve()
 	if err != nil {
 		http.Error(w, "Internal error.", http.StatusInternalServerError)
+		log.Printf("hndl.svc.Solve: %v", err.Error())
+
 		return
 	}
 

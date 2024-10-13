@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	config "wordOfWisdom/config/solver"
+	config "github.com/cortez720/wordofwisdom/config/solver"
 )
 
 const (

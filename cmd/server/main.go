@@ -8,13 +8,12 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"wordOfWisdom/internal/handler"
 
-	powConfig "wordOfWisdom/config/pow"
-	serverConfig "wordOfWisdom/config/server"
-
-	hashbasedpow "wordOfWisdom/internal/pkg/hash_based_pow"
-	quoteSvc "wordOfWisdom/internal/service/quote"
+	powConfig "github.com/cortez720/wordofwisdom/config/pow"
+	serverConfig "github.com/cortez720/wordofwisdom/config/server"
+	"github.com/cortez720/wordofwisdom/internal/handler"
+	hashbasedpow "github.com/cortez720/wordofwisdom/internal/pkg/hash_based_pow"
+	quoteSvc "github.com/cortez720/wordofwisdom/internal/service/quote"
 )
 
 func main() {

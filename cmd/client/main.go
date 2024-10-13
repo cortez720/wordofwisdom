@@ -7,14 +7,13 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"wordOfWisdom/internal/handler"
 
-	clientConfig "wordOfWisdom/config/client"
-	powConfig "wordOfWisdom/config/pow"
-	solverConfig "wordOfWisdom/config/solver"
-
-	hashbasedpow "wordOfWisdom/internal/pkg/hash_based_pow"
-	solverSvc "wordOfWisdom/internal/service/solver"
+	clientConfig "github.com/cortez720/wordofwisdom/config/client"
+	powConfig "github.com/cortez720/wordofwisdom/config/pow"
+	solverConfig "github.com/cortez720/wordofwisdom/config/solver"
+	"github.com/cortez720/wordofwisdom/internal/handler"
+	hashbasedpow "github.com/cortez720/wordofwisdom/internal/pkg/hash_based_pow"
+	solverSvc "github.com/cortez720/wordofwisdom/internal/service/solver"
 )
 
 func main() {
@@ -33,7 +32,7 @@ func main() {
 
 	http.HandleFunc("/solve", hndl.Solve)
 
-	log.Printf("Running HTTP server on %s\n", clientConfig.HTTPAddr)
+	log.Printf("Running Client HTTP server on %s\n", clientConfig.HTTPAddr)
 
 	go func() { log.Fatal(http.ListenAndServe(clientConfig.HTTPAddr, nil)) }()
 

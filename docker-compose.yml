@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile.server
+    container_name: wow-server
+    networks:
+      - wow-network
+    ports:
+     - "9090:9090"
+    environment:
+      SERVER_HTTP_HOST_ADDR: ":9090"
+      POW_COMPLEXITY: 4
+
+  client:
+    build:
+      context: ./
+      dockerfile: Dockerfile.client
+    container_name: wow-client
+    depends_on:
+      - server
+    networks:
+      - wow-network
+    ports:
+     - "9091:9091"
+    environment:
+      SERVER_ADDR: "http://server:9090"
+      POW_COMPLEXITY: 4
+      CLIENT_HTTP_HOST_ADDR: ":9091"
+      VALIDATE_ROUTE: "/validate"
+      CHALLENGE_ROUTE: "/challenge"
+    command: ["./client"]
+
+networks:
+  wow-network:
+    driver: bridge

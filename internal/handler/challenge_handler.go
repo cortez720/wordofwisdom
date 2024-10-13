@@ -5,6 +5,7 @@ package handler
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -44,12 +45,16 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 
 	if err := hndl.pow.Verify(challenge, solution); err != nil {
 		http.Error(w, "Invalid PoW solution", http.StatusUnauthorized)
+		log.Printf("hndl.pow.Verify: %v", err.Error())
+
 		return
 	}
 
 	res, err := hndl.svc.GetWordOfWisdom(defaultCtx)
 	if err != nil {
 		http.Error(w, "Internal error.", http.StatusInternalServerError)
+		log.Printf("hndl.svc.GetWordOfWisdom: %v", err.Error())
+
 		return
 	}
 

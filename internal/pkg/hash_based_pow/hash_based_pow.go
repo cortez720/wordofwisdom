@@ -8,7 +8,7 @@ import (
 	"errors"
 	"math"
 
-	config "wordOfWisdom/config/pow"
+	config "github.com/cortez720/wordofwisdom/config/pow"
 )
 
 const (

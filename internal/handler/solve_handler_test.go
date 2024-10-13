@@ -6,10 +6,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mocks "wordOfWisdom/internal/handler/mocks"
-
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
+
+	mocks "github.com/cortez720/wordofwisdom/internal/handler/mocks"
 )
 
 func TestSolverHandler_Solve(t *testing.T) {
