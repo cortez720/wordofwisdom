@@ -21,3 +21,4 @@
 
 - Implement a repository for quotes instead of directly returning them in the service.
 - Cover the solver service with integration tests.
+- Optimize the resolved map to refresh resolved challenges. (Make it in with TTL OR rewrite PoW in one connection)

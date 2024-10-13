@@ -24,12 +24,13 @@ type pow interface {
 }
 
 type PowHandler struct {
-	pow pow
-	svc quoteService
+	pow      pow
+	svc      quoteService
+	resolved map[string]struct{}
 }
 
 func NewPow(pow pow, svc quoteService) *PowHandler {
-	return &PowHandler{pow: pow, svc: svc}
+	return &PowHandler{pow: pow, svc: svc, resolved: make(map[string]struct{})}
 }
 
 func (hndl *PowHandler) Challenge(w http.ResponseWriter, _ *http.Request) {
@@ -42,6 +43,12 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 
 	challenge := []byte(r.FormValue(challengeArg))
 	solution := []byte(r.FormValue(solutionArg))
+
+	if _, ok := hndl.resolved[string(challenge)]; ok {
+		http.Error(w, "PoW was resolved recently", http.StatusUnauthorized)
+
+		return
+	}
 
 	if err := hndl.pow.Verify(challenge, solution); err != nil {
 		http.Error(w, "Invalid PoW solution", http.StatusUnauthorized)
@@ -57,6 +64,8 @@ func (hndl *PowHandler) Validate(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+
+	hndl.resolved[string(challenge)] = struct{}{}
 
 	w.Write([]byte(fmt.Sprintf("Quote of the day: %s", res))) //nolint:errcheck
 }
