@@ -16,3 +16,8 @@
   -d "challenge={challenge}" \
   -d "solution={solution}" --output -`
 - solve through client and get quote with `curl -X GET http://localhost:9091/solve --output -`
+
+## Possible improvements
+
+- Implement a repository for quotes instead of directly returning them in the service.
+- Cover the solver service with integration tests.
